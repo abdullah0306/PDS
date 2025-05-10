@@ -1,9 +1,13 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
+import { SignJWT } from 'jose';
 import prisma from '../../../lib/prisma';
 
 const JWT_SECRET = process.env.JWT_SECRET;
+
+if (!JWT_SECRET) {
+  throw new Error('JWT_SECRET is not configured');
+}
 
 export async function POST(req: Request) {
   try {
@@ -39,22 +43,57 @@ export async function POST(req: Request) {
       );
     }
 
-    // Generate JWT token
-    const token = jwt.sign(
-      { userId: user.id, email: user.email },
-      JWT_SECRET,
-      { expiresIn: '7d' }
+    // Generate JWT token using jose
+    const token = await new SignJWT({ 
+      userId: user.id, 
+      email: user.email, 
+      role: user.role 
+    })
+      .setProtectedHeader({ alg: 'HS256' })
+      .setIssuedAt()
+      .setExpirationTime('7d')
+      .sign(new TextEncoder().encode(JWT_SECRET));
+
+    // Create the response with cookies
+    const response = new NextResponse(
+      JSON.stringify({
+        message: 'Login successful',
+        user: {
+          id: user.id,
+          fullName: user.fullName,
+          email: user.email,
+          role: user.role,
+        },
+      }),
+      {
+        status: 200,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      }
     );
 
-    return NextResponse.json({
-      message: 'Login successful',
-      token,
-      user: {
-        id: user.id,
-        fullName: user.fullName,
-        email: user.email,
-      },
-    });
+    // Set cookies with type-safe options
+    const cookieOptions = {
+      httpOnly: true,
+      secure: process.env.NODE_ENV === 'production',
+      sameSite: 'lax' as const,
+      path: '/',
+      maxAge: 7 * 24 * 60 * 60, // 7 days in seconds
+    };
+
+    // Set token cookie
+    response.cookies.set('token', token, cookieOptions);
+
+    // Set user cookie
+    response.cookies.set('user', JSON.stringify({
+      id: user.id,
+      email: user.email,
+      role: user.role,
+    }), cookieOptions);
+
+    console.log('Cookies set successfully');
+    return response;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(

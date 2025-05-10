@@ -1,14 +1,20 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
 
 export default function LoginForm() {
+  const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [rememberMe, setRememberMe] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState('');
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError('');
     try {
       const response = await fetch('/api/login', {
         method: 'POST',
@@ -24,21 +30,40 @@ export default function LoginForm() {
         throw new Error(data.error || 'Something went wrong');
       }
 
-      // Store the token based on remember me preference
+      console.log('Login successful:', data.user);
+      console.log('User role:', data.user.role);
+      
+      // Store in localStorage for client-side access if remember me is checked
       if (rememberMe) {
-        localStorage.setItem('token', data.token);
-      } else {
-        sessionStorage.setItem('token', data.token);
+        localStorage.setItem('user', JSON.stringify(data.user));
       }
 
-      // Store user data
-      localStorage.setItem('user', JSON.stringify(data.user));
+      // Store minimal user info in localStorage
+      localStorage.setItem('user', JSON.stringify({
+        role: data.user.role
+      }));
 
-      // Redirect to home page after successful login
-      window.location.href = '/';
+      // Role-based redirection
+      if (data.user.role === 'admin') {
+        console.log('Redirecting to dashboard...');
+        router.push('/dashboard');
+        // Fallback redirect
+        setTimeout(() => {
+          window.location.href = '/dashboard';
+        }, 100);
+      } else {
+        console.log('Redirecting to home...');
+        router.push('/');
+        // Fallback redirect
+        setTimeout(() => {
+          window.location.href = '/';
+        }, 100);
+      }
     } catch (error) {
       console.error('Login error:', error);
-      alert(error.message);
+      setError(error.message || 'An error occurred during login');
+    } finally {
+      setIsLoading(false);
     }
   };
 
@@ -97,12 +122,18 @@ export default function LoginForm() {
 
         <button
           type="submit"
+          disabled={isLoading}
           className="w-full py-3 px-4 bg-[#0328EE] hover:bg-[#0328EE]/90 text-white font-semibold rounded-lg transition-colors focus:outline-none focus:ring-2 focus:ring-[#0328EE]/50 focus:ring-offset-2 focus:ring-offset-[#221641]"
         >
-          SIGN IN
+          {isLoading ? 'SIGNING IN...' : 'SIGN IN'}
         </button>
 
-        <div className="text-center text-sm">
+        {error && (
+        <div className="mb-4 text-center text-sm text-red-500">
+          {error}
+        </div>
+      )}
+      <div className="text-center text-sm">
           <span className="text-white">Don't have an account? </span>
           <Link href="/signup" className="text-white font-bold hover:text-[#0328EE] transition-colors">
             Sign up
