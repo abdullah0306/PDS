@@ -1,0 +1,121 @@
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@font-face {
+  font-family: halvatica;
+  src: url("../app/fonts/Helvetica.ttf");
+}
+body {
+  background: #0d0d0d;
+  color: white;
+  font-family: Arial, Helvetica, sans-serif;
+}
+html,
+body {
+  overflow-x: hidden !important;
+  position: relative;
+  max-width: 1920px;
+  margin: auto;
+}
+
+.gradient_btn {
+  background: linear-gradient(
+    95.31deg,
+    #3263ff 3.13%,
+    #55a1ff 48.9%,
+    #79deff 93.15%
+  );
+  border: 1px solid #0000000d;
+  box-shadow: 0px 0px 0px 3px #ffffff33;
+}
+.grey_gradient {
+  background: linear-gradient(135deg, #ffffff 0%, #71717a 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+}
+.text_gradient_hero {
+  background: linear-gradient(94.34deg, #ffffff 0%, #9bd0f5 40%, #c52c76 100%),
+    linear-gradient(0deg, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.floating_gradient {
+  background: linear-gradient(
+      95.31deg,
+      #3263ff 3.13%,
+      #55a1ff 48.9%,
+      #79deff 93.15%
+    ),
+    linear-gradient(96.31deg, #8648ff 22.16%, #55a1ff 63.58%, #79deff 92.51%);
+}
+.ff_lato {
+  font-family: "Lato", sans-serif;
+}
+.ff_poppin {
+  font-family: "Poppins", sans-serif;
+}
+.ff_dm {
+  font-family: "DM Sans", sans-serif;
+}
+.ff_inter {
+  font-family: "Inter", sans-serif;
+}
+.ff_hevatica {
+  font-family: "halvatica", sans-serif;
+}
+.heading {
+  @apply font-bold xl:text-[48px] lg:text-3xl text-[29px] leading-[114.149%] text-white;
+}
+.sub-heading {
+  @apply xl:text-lg lg:text-base text-sm text-white leading-[177.8%];
+}
+.main-container {
+  @apply max-w-[1240px] w-full mx-auto px-5;
+}
+.timeline-card-year {
+  @apply text-[28px] leading-[107.1%] tracking-[0.28px] text-white;
+}
+.timeline-card-announcement {
+  @apply xl:text-lg lg:text-base text-sm leading-[144.4%] tracking-[0.9px] text-white uppercase;
+}
+.group-bg::after {
+  content: "";
+  position: absolute;
+  top: -100px;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-image: url("/img/webp/group-bg.webp");
+  background-size: cover;
+  background-position: center;
+  z-index: -1;
+  filter: blur(150px);
+}
+.about-hero-bg::after {
+  content: "";
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  background-size: cover;
+  background-position: center;
+  background-image: url("/img/webp/about-hero-bg.webp");
+  z-index: -1;
+  backdrop-filter: 150px;
+}
+.slick-dots li button:before {
+  color: white !important;
+  font-size: 12px !important;
+}
+.slick-dots li {
+  margin: 0px !important;
+}
+.slick-dots {
+  bottom: -50px !important;
+}
