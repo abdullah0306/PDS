@@ -2,10 +2,14 @@ import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import { jwtVerify, createRemoteJWKSet } from 'jose';
 
-const JWT_SECRET = process.env.JWT_SECRET;
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET environment variable is not set');
-}
+const getJWTSecret = () => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    console.error('JWT_SECRET environment variable is not set');
+    return null;
+  }
+  return secret;
+};
 
 interface JWTPayload extends Record<string, unknown> {
   userId: string;
@@ -17,7 +21,9 @@ interface JWTPayload extends Record<string, unknown> {
 
 const verifyJWT = async (token: string): Promise<JWTPayload | null> => {
   try {
-    const secretKey = new TextEncoder().encode(JWT_SECRET);
+    const secret = getJWTSecret();
+    if (!secret) return null;
+    const secretKey = new TextEncoder().encode(secret);
     const { payload } = await jwtVerify(token, secretKey, {
       algorithms: ['HS256'],
     });

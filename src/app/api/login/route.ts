@@ -5,8 +5,17 @@ import { PrismaClient } from '@prisma/client';
 
 const prisma = new PrismaClient();
 
+const getJWTSecret = () => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    console.error('JWT_SECRET environment variable is not set');
+    return null;
+  }
+  return secret;
+};
+
 export async function POST(req: Request) {
-  const JWT_SECRET = process.env.JWT_SECRET;
+  const JWT_SECRET = getJWTSecret();
   if (!JWT_SECRET) {
     return NextResponse.json(
       { error: 'Server configuration error' },
