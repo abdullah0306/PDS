@@ -1,15 +1,33 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
-import prisma from '../../../lib/prisma';
+import { PrismaClient } from '@prisma/client';
 
-const JWT_SECRET = process.env.JWT_SECRET;
+// PrismaClient is attached to the `global` object in development to prevent
+// exhausting your database connection limit.
+const globalForPrisma = global as unknown as { prisma: PrismaClient };
 
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET is not configured');
-}
+const prisma = globalForPrisma.prisma || new PrismaClient();
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+
+const getJWTSecret = () => {
+  const secret = process.env.JWT_SECRET;
+  if (!secret) {
+    console.error('JWT_SECRET environment variable is not set');
+    return null;
+  }
+  return secret;
+};
 
 export async function POST(req: Request) {
+  const JWT_SECRET = getJWTSecret();
+  if (!JWT_SECRET) {
+    return NextResponse.json(
+      { error: 'Server configuration error' },
+      { status: 500 }
+    );
+  }
   try {
     const { email, password } = await req.json();
 
