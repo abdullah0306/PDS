@@ -45,7 +45,7 @@ export default function DashboardPage() {
           </p>
         </div>
 
-        {/* Sales */}
+        {/* Sales and New Customers */}
         <div className="rounded-lg bg-[#1E1E45] p-6 border border-[#2E2E55]">
           <div className="flex items-center justify-between">
             <div>
