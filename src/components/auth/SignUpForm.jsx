@@ -35,15 +35,8 @@ export default function SignUpForm() {
         throw new Error(data.error || 'Something went wrong');
       }
 
-      // Store the token in localStorage if remember me is checked
-      if (rememberMe) {
-        localStorage.setItem('token', data.token);
-      } else {
-        sessionStorage.setItem('token', data.token);
-      }
-
-      // Redirect to dashboard or home page
-      window.location.href = '/';
+      // Redirect to login page after successful signup
+      window.location.href = '/login';
     } catch (error) {
       console.error('Signup error:', error);
       alert(error.message);

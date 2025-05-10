@@ -9,8 +9,37 @@ export default function LoginForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // We'll implement the login logic later
-    console.log({ email, password, rememberMe });
+    try {
+      const response = await fetch('/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Something went wrong');
+      }
+
+      // Store the token based on remember me preference
+      if (rememberMe) {
+        localStorage.setItem('token', data.token);
+      } else {
+        sessionStorage.setItem('token', data.token);
+      }
+
+      // Store user data
+      localStorage.setItem('user', JSON.stringify(data.user));
+
+      // Redirect to home page after successful login
+      window.location.href = '/';
+    } catch (error) {
+      console.error('Login error:', error);
+      alert(error.message);
+    }
   };
 
   return (
