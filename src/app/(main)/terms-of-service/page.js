@@ -1,4 +1,4 @@
-import TermsOfServicesContent from "@/components/legal-pages/TermsOfServicesContent";
+import TermsOfServicesContent from "../../../components/legal-pages/TermsOfServicesContent.jsx";
 import React from "react";
 export const metadata = {
   title: "PDS || Terms of Services",

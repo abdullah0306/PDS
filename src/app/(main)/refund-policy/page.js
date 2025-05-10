@@ -1,4 +1,4 @@
-import RefundContent from "@/components/legal-pages/RefundContent";
+import RefundContent from "../../../components/legal-pages/RefundContent.jsx";
 import React from "react";
 export const metadata = {
   title: "PDS || Refund Policy",
