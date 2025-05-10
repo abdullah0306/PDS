@@ -1,34 +1,19 @@
 import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
-import { PrismaClient } from '@prisma/client';
-
-// PrismaClient is attached to the `global` object in development to prevent
-// exhausting your database connection limit.
-const globalForPrisma = global as unknown as { prisma: PrismaClient };
-
-const prisma = globalForPrisma.prisma || new PrismaClient();
-
-if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma;
+import { prisma } from '../../../lib/prisma';
 
 const getJWTSecret = () => {
   const secret = process.env.JWT_SECRET;
-  if (!secret) {
-    console.error('JWT_SECRET environment variable is not set');
-    return null;
+  if (!secret || secret.length === 0) {
+    throw new Error('JWT_SECRET environment variable is not set');
   }
   return secret;
 };
 
 export async function POST(req: Request) {
-  const JWT_SECRET = getJWTSecret();
-  if (!JWT_SECRET) {
-    return NextResponse.json(
-      { error: 'Server configuration error' },
-      { status: 500 }
-    );
-  }
   try {
+    const JWT_SECRET = getJWTSecret();
     const { email, password } = await req.json();
 
     // Validate input
@@ -110,12 +95,11 @@ export async function POST(req: Request) {
       role: user.role,
     }), cookieOptions);
 
-    console.log('Cookies set successfully');
     return response;
   } catch (error) {
     console.error('Login error:', error);
     return NextResponse.json(
-      { error: 'Internal server error' },
+      { error: error instanceof Error ? error.message : 'Internal server error' },
       { status: 500 }
     );
   }
