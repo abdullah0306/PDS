@@ -3,13 +3,14 @@ import bcrypt from 'bcryptjs';
 import { SignJWT } from 'jose';
 import prisma from '../../../lib/prisma';
 
-const JWT_SECRET = process.env.JWT_SECRET;
-
-if (!JWT_SECRET) {
-  throw new Error('JWT_SECRET is not configured');
-}
-
 export async function POST(req: Request) {
+  const JWT_SECRET = process.env.JWT_SECRET;
+  if (!JWT_SECRET) {
+    return NextResponse.json(
+      { error: 'Server configuration error' },
+      { status: 500 }
+    );
+  }
   try {
     const { email, password } = await req.json();
 
