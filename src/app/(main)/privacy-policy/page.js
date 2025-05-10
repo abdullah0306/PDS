@@ -1,4 +1,4 @@
-import PrivacyContent from "@/components/legal-pages/PrivacyContent";
+import PrivacyContent from "../../../components/legal-pages/PrivacyContent.jsx";
 import React from "react";
 export const metadata = {
   title: "PDS || Privacy Policy",

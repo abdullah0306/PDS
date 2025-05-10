@@ -1,7 +1,7 @@
 'use client';
-import TopHeader from "@/components/common/TopHeader";
-import Navigation from "@/components/common/Navigation";
-import Footer from "@/components/common/Footer";
+import TopHeader from "../common/TopHeader.jsx";
+import Navigation from "../common/Navigation.jsx";
+import Footer from "../common/Footer.jsx";
 import { useEffect } from "react";
 import Lenis from "@studio-freight/lenis";
 

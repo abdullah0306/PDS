@@ -1,5 +1,5 @@
-import FaqsContainer from "@/components/common/FaqsContainer";
-import GetInTouch from "@/components/contact/GetInTouch";
+import FaqsContainer from "../../../components/common/FaqsContainer.jsx";
+import GetInTouch from "../../../components/contact/GetInTouch.jsx";
 export const metadata = {
   title: "PDS || Contact us",
   description: `Transforming businesses with cutting-edge technology and

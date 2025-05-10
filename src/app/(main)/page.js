@@ -1,14 +1,14 @@
-import FaqsContainer from "@/components/common/FaqsContainer";
-import GetAProject from "@/components/common/GetAProject";
-import Career from "@/components/home/Career";
-import Hero from "@/components/home/Hero";
-import HowWeWork from "@/components/home/HowWeWork";
-import LogosSlider from "@/components/home/LogosSlider";
-import MeetClientSlider from "@/components/home/MeetClientSlider";
-import NewsLetter from "@/components/home/NewsLetter";
-import OurPastWork from "@/components/common/OurPastWork";
-import ServiceWeOffer from "@/components/home/ServiceWeOffer";
-import WhatOurClientSay from "@/components/home/WhatOurClientSay";
+import FaqsContainer from "../../components/common/FaqsContainer.jsx";
+import GetAProject from "../../components/common/GetAProject.jsx";
+import Career from "../../components/home/Career.jsx";
+import Hero from "../../components/home/Hero.jsx";
+import HowWeWork from "../../components/home/HowWeWork.jsx";
+import LogosSlider from "../../components/home/LogosSlider.jsx";
+import MeetClientSlider from "../../components/home/MeetClientSlider.jsx";
+import NewsLetter from "../../components/home/NewsLetter.jsx";
+import OurPastWork from "../../components/common/OurPastWork.jsx";
+import ServiceWeOffer from "../../components/home/ServiceWeOffer.jsx";
+import WhatOurClientSay from "../../components/home/WhatOurClientSay.jsx";
 export const metadata = {
   title: "PDS",
   description: `Transforming businesses with cutting-edge technology and

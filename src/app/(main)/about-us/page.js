@@ -1,12 +1,12 @@
-import DigitalSolutions from "@/components/about/DigitalSolutions";
-import DigitalSolutionSlider from "@/components/about/DigitalSolutionSlider";
-import FinanceFlow from "@/components/about/FinanceFlow";
-import Investors from "@/components/about/Investors";
-import OurStory from "@/components/about/OurStory";
-import OurTeam from "@/components/about/OurTeam";
-import Timeline from "@/components/about/Timeline";
-import GetAProject from "@/components/common/GetAProject";
-import OurPastWork from "@/components/common/OurPastWork";
+import DigitalSolutions from "../../../components/about/DigitalSolutions.jsx";
+import DigitalSolutionSlider from "../../../components/about/DigitalSolutionSlider.jsx";
+import FinanceFlow from "../../../components/about/FinanceFlow.jsx";
+import Investors from "../../../components/about/Investors.jsx";
+import OurStory from "../../../components/about/OurStory.jsx";
+import OurTeam from "../../../components/about/OurTeam.jsx";
+import Timeline from "../../../components/about/Timeline.jsx";
+import GetAProject from "../../../components/common/GetAProject.jsx";
+import OurPastWork from "../../../components/common/OurPastWork.jsx";
 export const metadata = {
   title: "PDS || About",
   description: `Transforming businesses with cutting-edge technology and
