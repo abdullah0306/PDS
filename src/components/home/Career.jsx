@@ -6,6 +6,7 @@ const Career = () => {
     <div className="relative career_section">
       <div className="h-[600px] w-[600px] 2xl:w-[700px] 2xl:h-[700px] absolute -left-20 lg:top-20 top-0 2xl:-bottom-40 bg-darkBlue rounded-full blur-[80px] z-[-1]"></div>
 
+      {/* career image */}
       <img
         className="absolute pointer-events-none top-0 xl:top-[-100px] 2xl:left-[15%] left-[7%] w-full xl:max-w-[600px] max-w-[500px]"
         src="/img/careerimg.webp"
