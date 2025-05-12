@@ -1,58 +1,149 @@
-'use client';
-
-import { useState } from 'react';
-import { FiSearch, FiFilter, FiMoreVertical, FiEye, FiMail, FiChevronDown, FiUsers, FiUserCheck, FiClock, FiTrendingUp } from 'react-icons/fi';
-import CustomerModal from './CustomerModal';
+import { CustomersTable } from './components/CustomersTable';
 
 const customerData = [
-  // ... existing code ...
+  {
+    name: 'John Smith',
+    email: 'john.smith@example.com',
+    status: 'New',
+    priority: 'Medium',
+    source: 'Contact Page',
+    created: 'Apr 15, 2025, 4:00 PM',
+    message: "I'm interested in your services and would like to...",
+    attachments: ['Pre-Order', 'Image'],
+  },
+  {
+    name: 'Ethan Clark',
+    email: 'ethan.c@startup.co',
+    status: 'New',
+    priority: 'High',
+    source: 'Website Form',
+    created: 'Apr 15, 2025, 3:45 PM',
+    message: "Looking for a solution that can help with...",
+    attachments: ['Proposal'],
+  },
+  {
+    name: 'Sarah Wilson',
+    email: 'sarah.w@company.com',
+    status: 'Contacted',
+    priority: 'Medium',
+    source: 'Referral',
+    created: 'Apr 15, 2025, 2:30 PM',
+    message: "Our team is expanding and we need...",
+    attachments: ['Requirements', 'Budget'],
+  },
+  {
+    name: 'Michael Brown',
+    email: 'm.brown@enterprise.org',
+    status: 'Qualified',
+    priority: 'High',
+    source: 'LinkedIn',
+    created: 'Apr 15, 2025, 1:15 PM',
+    message: "We're looking to implement a new system...",
+    attachments: ['RFP', 'Timeline'],
+  },
+  {
+    name: 'Emma Davis',
+    email: 'emma.d@tech.io',
+    status: 'Lost',
+    priority: 'Low',
+    source: 'Cold Email',
+    created: 'Apr 15, 2025, 11:00 AM',
+    message: "Thank you for your proposal, but we've decided...",
+    attachments: ['Feedback'],
+  },
+  {
+    name: 'James Taylor',
+    email: 'jtaylor@email.com',
+    status: 'Contacted',
+    priority: 'Low',
+    source: 'Support',
+    created: 'Apr 14, 2025, 7:10 PM',
+    message: "I'm having trouble understanding how to use the...",
+    attachments: [],
+  },
+  {
+    name: 'Olivia Martinez',
+    email: 'olivia.m@bigcorp.com',
+    status: 'New',
+    priority: 'High',
+    source: 'Referral',
+    created: 'Apr 15, 2025, 2:00 PM',
+    message: 'We are considering switching from our current pr...',
+    attachments: [],
+  },
+  {
+    name: 'Isabella Cooper',
+    email: 'isabella.c@enterprise.net',
+    status: 'Contacted',
+    priority: 'Medium',
+    source: 'Webinar',
+    created: 'Apr 14, 2025, 8:50 PM',
+    message: 'Our enterprise is evaluating solutions in your spa...',
+    attachments: ['Pre-Order', 'Image'],
+  },
+  {
+    name: 'Emma Johnson',
+    email: 'emma.j@company.co',
+    status: 'Contacted',
+    priority: 'High',
+    source: 'Referral',
+    created: 'Apr 14, 2025, 2:45 PM',
+    message: 'Our company is looking for a partnership opportu...',
+    attachments: [],
+  },
+  {
+    name: 'Michael Brown',
+    email: 'mbrown@email.net',
+    status: 'Qualified',
+    priority: 'Medium',
+    source: 'Organic Search',
+    created: 'Apr 13, 2025, 9:15 PM',
+    message: 'I found your website while searching for solutions...',
+    attachments: [],
+  },
+  {
+    name: 'Ava Robinson',
+    email: 'ava.r@consultancy.biz',
+    status: 'Qualified',
+    priority: 'High',
+    source: 'Contact Page',
+    created: 'Apr 13, 2025, 2:30 PM',
+    message: 'Our consultancy is interested in a bulk purchase f...',
+    attachments: [],
+  },
 ];
 
 const statsData = [
-  // ... existing code ...
+  {
+    title: 'Total Leads',
+    value: '156',
+    change: '+12%',
+    trend: 'up',
+    period: 'from last month',
+  },
+  {
+    title: 'Conversion Rate',
+    value: '24.8%',
+    change: '+1.2%',
+    trend: 'up',
+    period: 'from last month',
+  },
+  {
+    title: 'Avg. Response Time',
+    value: '2.4h',
+    change: '-19%',
+    trend: 'up',
+    period: 'from last month',
+  },
+  {
+    title: 'New Leads',
+    value: '32',
+    change: '-5%',
+    trend: 'down',
+    period: 'from last month',
+  },
 ];
 
 export default function CustomersPage() {
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  const renderStatusBadge = (status) => {
-    const statusStyles = {
-      New: 'bg-blue-100 text-blue-800 text-blue',
-      Contacted: 'bg-yellow-100 text-yellow-800',
-      Qualified: 'bg-green-100 text-green-800',
-      Lost: 'bg-red-100 text-red-800',
-    };
-
-    return (
-      <span className={`px-2 py-1 text-xs text font-medium rounded-full ${statusStyles[status] || ''}`}>
-        {status}
-      </span>
-    );
-  };
-
-  const renderPriorityBadge = (priority) => {
-    const priorityStyles = {
-      High: 'bg-red-100 text-red-800',
-      Medium: 'bg-yellow-100 text-yellow-800',
-      Low: 'bg-green-100 text-green-800',
-    };
-
-    return (
-      <span className={`px-2 py-1 text-xs font-medium rounded-full ${priorityStyles[priority] || ''}`}>
-        {priority}
-      </span>
-    );
-  };
-
-  return (
-    <>
-      <CustomerModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-        customer={selectedCustomer}
-      />
-      {/* Rest of your page component */}
-    </>
-  );
+  return <CustomersTable initialCustomers={customerData} statsData={statsData} />;
 }

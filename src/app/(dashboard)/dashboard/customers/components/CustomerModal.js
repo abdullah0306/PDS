@@ -4,7 +4,7 @@ import { Fragment } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 import { FiX } from 'react-icons/fi';
 
-const CustomerModal = ({ isOpen, onClose, customer }) => {
+export const CustomerModal = ({ isOpen, onClose, customer }) => {
   if (!customer) return null;
   
   const renderStatusBadge = (status) => {
@@ -129,6 +129,4 @@ const CustomerModal = ({ isOpen, onClose, customer }) => {
       </Dialog>
     </Transition>
   );
-};
-
-export default CustomerModal; 
+}; 
