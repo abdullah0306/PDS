@@ -52,7 +52,11 @@ module.exports = {
         multicolor:
           "linear-gradient(-170deg,#ffffff 0%,#7e7bff 53.65%,#ff00df 100%)",
       },
+      screens: {
+        '2xl': '1600px',
+      },
     },
   },
   plugins: [],
 };
+
