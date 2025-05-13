@@ -1,13 +1,282 @@
 'use client';
 
-import { useState } from 'react';
-import { FiSearch, FiFilter, FiMoreVertical, FiEye, FiMail, FiChevronDown, FiUsers, FiUserCheck, FiClock, FiTrendingUp } from 'react-icons/fi';
-import { CustomerModal } from './CustomerModal';
+import { useState, Fragment } from 'react';
+import { Dialog, Transition } from '@headlessui/react';
+import { FiX, FiSearch, FiFilter, FiMoreVertical, FiEye, FiMail, FiChevronDown, FiUsers, FiUserCheck, FiClock, FiTrendingUp } from 'react-icons/fi';
 
-export function CustomersTable({ initialCustomers, statsData }) {
-  const [selectedCustomer, setSelectedCustomer] = useState(null);
-  const [isModalOpen, setIsModalOpen] = useState(false);
+export const CustomerModal = ({ isOpen, onClose, customer }) => {
+  if (!customer) return null;
+  const renderStatusBadge = (status) => {
+    const statusStyles = {
+      New: 'bg-blue-100 text-blue-800 text-blue',
+      Contacted: 'bg-yellow-100 text-yellow-800',
+      Qualified: 'bg-green-100 text-green-800',
+      Lost: 'bg-red-100 text-red-800',
+    };
+
+
+    return (
+      <span className={`px-2 py-1 text-xs text font-medium rounded-full ${statusStyles[status] || ''}`}>
+        {status}
+      </span>
+    );
+  };
+  const renderPriorityBadge = (priority) => {
+    const priorityStyles = {
+      High: 'bg-red-100 text-red-800',
+      Medium: 'bg-yellow-100 text-yellow-800',
+      Low: 'bg-green-100 text-green-800',
+    };
+
+    return (
+      <span className={`px-2 py-1 text-xs font-medium rounded-full ${priorityStyles[priority] || ''}`}>
+        {priority}
+      </span>
+    );
+  };
+  return (
+    <Transition appear show={isOpen} as={Fragment}>
+      <Dialog as="div" className="relative z-50" onClose={onClose}>
+        <Transition.Child
+          as={Fragment}
+          enter="ease-out duration-300"
+          enterFrom="opacity-0"
+          enterTo="opacity-100"
+          leave="ease-in duration-200"
+          leaveFrom="opacity-100"
+          leaveTo="opacity-0"
+        >
+          <div className="fixed inset-0 bg-black bg-opacity-25" />
+        </Transition.Child>
+
+        <div className="fixed inset-0 overflow-y-auto">
+          <div className="flex min-h-full items-center justify-center p-4">
+            <Transition.Child
+              as={Fragment}
+              enter="ease-out duration-300"
+              enterFrom="opacity-0 scale-95"
+              enterTo="opacity-100 scale-100"
+              leave="ease-in duration-200"
+              leaveFrom="opacity-100 scale-100"
+              leaveTo="opacity-0 scale-95"
+            >
+              <Dialog.Panel className="w-full max-w-2xl transform overflow-hidden rounded-xl bg-white p-6 shadow-xl transition-all">
+                <div className="flex items-center justify-between mb-4">
+                  <Dialog.Title as="h3" className="text-lg font-medium text-black">
+                    Lead Details
+                  </Dialog.Title>
+                  <button
+                    onClick={onClose}
+                    className="text-gray-400 hover:text-gray-600"
+                  >
+                    <FiX className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="space-y-4">
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500">Name</h4>
+                      <p className="text-black">{customer.name}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500">Email</h4>
+                      <p className="text-black">{customer.email}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500">Status</h4>
+                      <div className="mt-1">{renderStatusBadge(customer.status)}</div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500">Priority</h4>
+                      <div className="mt-1">{renderPriorityBadge(customer.priority)}</div>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500">Source</h4>
+                      <p className="text-black">{customer.source}</p>
+                    </div>
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500">Created</h4>
+                      <p className="text-black">{customer.created}</p>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h4 className="text-sm font-medium text-gray-500">Message</h4>
+                    <p className="text-black mt-1">{customer.message}</p>
+                  </div>
+
+                  {customer.attachments.length > 0 && (
+                    <div>
+                      <h4 className="text-sm font-medium text-gray-500">Attachments</h4>
+                      <div className="flex gap-2 mt-2">
+                        {customer.attachments.map((attachment, i) => (
+                          <div key={i} className="flex items-center gap-1 px-2 py-1 bg-gray-100 rounded text-xs text-black">
+                            <span className="text-red-500">■</span>
+                            {attachment}
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </div>
+      </Dialog>
+    </Transition>
+  );
+};
+
+const customerData = [
+  {
+    name: 'John Smith',
+    email: 'john.smith@example.com',
+    status: 'New',
+    priority: 'Medium',
+    source: 'Contact Page',
+    created: 'Apr 15, 2025, 4:00 PM',
+    message: "I'm interested in your services and would like to...",
+    attachments: ['Pre-Order', 'Image'],
+  },
+  {
+    name: 'Ethan Clark',
+    email: 'ethan.c@startup.co',
+    status: 'New',
+    priority: 'High',
+    source: 'Website Form',
+    created: 'Apr 15, 2025, 3:45 PM',
+    message: "Looking for a solution that can help with...",
+    attachments: ['Proposal'],
+  },
+  {
+    name: 'Sarah Wilson',
+    email: 'sarah.w@company.com',
+    status: 'Contacted',
+    priority: 'Medium',
+    source: 'Referral',
+    created: 'Apr 15, 2025, 2:30 PM',
+    message: "Our team is expanding and we need...",
+    attachments: ['Requirements', 'Budget'],
+  },
+  {
+    name: 'Michael Brown',
+    email: 'm.brown@enterprise.org',
+    status: 'Qualified',
+    priority: 'High',
+    source: 'LinkedIn',
+    created: 'Apr 15, 2025, 1:15 PM',
+    message: "We're looking to implement a new system...",
+    attachments: ['RFP', 'Timeline'],
+  },
+  {
+    name: 'Emma Davis',
+    email: 'emma.d@tech.io',
+    status: 'Lost',
+    priority: 'Low',
+    source: 'Cold Email',
+    created: 'Apr 15, 2025, 11:00 AM',
+    message: "Thank you for your proposal, but we've decided...",
+    attachments: ['Feedback'],
+  },
+  {
+    name: 'James Taylor',
+    email: 'jtaylor@email.com',
+    status: 'Contacted',
+    priority: 'Low',
+    source: 'Support',
+    created: 'Apr 14, 2025, 7:10 PM',
+    message: "I'm having trouble understanding how to use the...",
+    attachments: [],
+  },
+  {
+    name: 'Olivia Martinez',
+    email: 'olivia.m@bigcorp.com',
+    status: 'New',
+    priority: 'High',
+    source: 'Referral',
+    created: 'Apr 15, 2025, 2:00 PM',
+    message: 'We are considering switching from our current pr...',
+    attachments: [],
+  },
+  {
+    name: 'Isabella Cooper',
+    email: 'isabella.c@enterprise.net',
+    status: 'Contacted',
+    priority: 'Medium',
+    source: 'Webinar',
+    created: 'Apr 14, 2025, 8:50 PM',
+    message: 'Our enterprise is evaluating solutions in your spa...',
+    attachments: ['Pre-Order', 'Image'],
+  },
+  {
+    name: 'Emma Johnson',
+    email: 'emma.j@company.co',
+    status: 'Contacted',
+    priority: 'High',
+    source: 'Referral',
+    created: 'Apr 14, 2025, 2:45 PM',
+    message: 'Our company is looking for a partnership opportu...',
+    attachments: [],
+  },
+  {
+    name: 'Michael Brown',
+    email: 'mbrown@email.net',
+    status: 'Qualified',
+    priority: 'Medium',
+    source: 'Organic Search',
+    created: 'Apr 13, 2025, 9:15 PM',
+    message: 'I found your website while searching for solutions...',
+    attachments: [],
+  },
+  {
+    name: 'Ava Robinson',
+    email: 'ava.r@consultancy.biz',
+    status: 'Qualified',
+    priority: 'High',
+    source: 'Contact Page',
+    created: 'Apr 13, 2025, 2:30 PM',
+    message: 'Our consultancy is interested in a bulk purchase f...',
+    attachments: [],
+  },
+];
+
+const statsData = [
+  {
+    title: 'Total Leads',
+    value: '156',
+    change: '+12%',
+    trend: 'up',
+    period: 'from last month',
+  },
+  {
+    title: 'Conversion Rate',
+    value: '24.8%',
+    change: '+1.2%',
+    trend: 'up',
+    period: 'from last month',
+  },
+  {
+    title: 'Avg. Response Time',
+    value: '2.4h',
+    change: '-19%',
+    trend: 'up',
+    period: 'from last month',
+  },
+  {
+    title: 'New Leads',
+    value: '32',
+    change: '-5%',
+    trend: 'down',
+    period: 'from last month',
+  },
+];
+
+export default function CustomersPage() {
   const [currentPage, setCurrentPage] = useState(1);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedCustomer, setSelectedCustomer] = useState(null);
   const [searchQuery, setSearchQuery] = useState('');
 
   const renderStatusBadge = (status) => {
@@ -41,7 +310,7 @@ export function CustomersTable({ initialCustomers, statsData }) {
 
   const itemsPerPage = 10;
 
-  const filteredCustomers = initialCustomers.filter(customer =>
+  const filteredCustomers = customerData.filter(customer =>
     customer.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
     customer.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
     (customer.message && customer.message.toLowerCase().includes(searchQuery.toLowerCase()))
@@ -229,4 +498,4 @@ export function CustomersTable({ initialCustomers, statsData }) {
       />
     </div>
   );
-} 
+}
