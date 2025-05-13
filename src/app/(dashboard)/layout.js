@@ -22,7 +22,7 @@ export default function DashboardLayout({ children }) {
       <Sidebar />
       <div className="pl-64">
         <Header />
-        <main className="p-8 pt-24">
+        <main className="p-8 pt-24 bg-[#F4F7FE]">
           {children}
         </main>
       </div>
