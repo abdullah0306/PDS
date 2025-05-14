@@ -3,9 +3,11 @@
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import feather from 'feather-icons';
+import { useState } from 'react';
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const [isOpen, setIsOpen] = useState(false);
 
   const menuItems = [
     { name: 'Dashboard', path: '/dashboard', icon: 'grid' },
@@ -13,7 +15,7 @@ export default function Sidebar() {
     { name: 'Customers', path: '/dashboard/customers', icon: 'users' },
     { name: 'Orders', path: '/dashboard/orders', icon: 'shopping-cart' },
     { name: 'Content', path: '/dashboard/content', icon: 'file-text' },
-    { name: 'Messages', path: '/dashboard/messages', icon: 'mail' },
+   
   ];
 
   const fileItems = [
@@ -85,32 +87,39 @@ export default function Sidebar() {
             <p className="px-3 text-xs font-medium text-gray-400">FILES</p>
             <nav className="space-y-1">
               <div className="group">
-                <Link
-                  href="/dashboard/files"
-                  className="flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-gray-400 hover:bg-white/5"
+                <button
+                  onClick={() => setIsOpen(!isOpen)}
+                  className="w-full flex items-center justify-between rounded-lg px-3 py-2 text-sm font-medium text-gray-400 hover:bg-white/5 focus:outline-none"
                 >
                   <div className="flex items-center space-x-3">
                     <span dangerouslySetInnerHTML={{ __html: feather.icons['folder'].toSvg({ width: 16, height: 16 }) }} />
                     <span>File Management</span>
                   </div>
-                  <span className="transition-transform group-hover:rotate-180" dangerouslySetInnerHTML={{ __html: feather.icons['chevron-down'].toSvg({ width: 16, height: 16 }) }} />
-                </Link>
-                <div className="ml-10 space-y-1 pt-1">
-                  {fileItems
-                    .filter((item) => item.isChild)
-                    .map((item) => (
-                      <Link
-                        key={item.path}
-                        href={item.path}
-                        className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-400 hover:bg-white/5"
-                      >
-                        {item.name}
-                      </Link>
-                    ))}
-                </div>
+                  <span
+                    className={`transition-transform ${isOpen ? 'rotate-180' : ''}`}
+                    dangerouslySetInnerHTML={{ __html: feather.icons['chevron-down'].toSvg({ width: 16, height: 16 }) }}
+                  />
+                </button>
+
+                {isOpen && (
+                  <div className="ml-10 space-y-1 pt-1">
+                    {fileItems
+                      .filter((item) => item.isChild)
+                      .map((item) => (
+                        <Link
+                          key={item.path}
+                          href={item.path}
+                          className="block rounded-lg px-3 py-2 text-sm font-medium text-gray-400 hover:bg-white/5"
+                        >
+                          {item.name}
+                        </Link>
+                      ))}
+                  </div>
+                )}
               </div>
             </nav>
           </div>
+
 
           <div className="space-y-1">
             <p className="px-3 text-xs font-medium text-gray-400">SETTINGS</p>

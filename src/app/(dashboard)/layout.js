@@ -18,7 +18,7 @@ export default function DashboardLayout({ children }) {
   }, [router]);
 
   return (
-    <div className="min-h-screen bg-[#fff]">
+    <div className="min-h-screen bg-[#fff] text-black">
       <Sidebar />
       <div className="pl-64">
         <Header />
