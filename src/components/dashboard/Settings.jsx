@@ -4,7 +4,7 @@ import { User, Lock, SlidersHorizontal } from "lucide-react";
 
 export default function Settings() {
   return (
-    <div className="min-h-screen bg-[#F4F7FE]  space-y-6">
+    <div className="min-h-screen bg-[#F4F7FE]">
       {/* Page Header */}
       <div className="flex justify-between items-center">
         <h1 className="text-2xl font-semibold text-gray-800">Settings</h1>
