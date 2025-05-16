@@ -142,7 +142,7 @@ export default function LoginForm() {
       </form>
 
       <div className="mt-8 text-center text-xs text-gray-500">
-        <p>© 2024. Made with ❤️ by Dream Algorithm</p>
+        <p>© 2024. Made with ❤️ by Webants</p>
         <div className="mt-2 space-x-4">
           <Link href="/marketplace" className="hover:text-gray-400">Marketplace</Link>
           <Link href="/blog" className="hover:text-gray-400">Blog</Link>
